@@ -5,9 +5,17 @@ export default defineConfig({
     extensionApi: 'chrome',
     modules: ['@wxt-dev/module-react'],
     srcDir: 'src',
+    manifest: {
+        web_accessible_resources: [
+            {
+                resources: ['excalidraw-iframe.html'],
+                matches: ["*://*/*"],
+            },
+        ],
+    },
     vite: () => ({
         define: {
-            "process.env.IS_PREACT": JSON.stringify("true"),
+            "process.env.IS_PREACT": JSON.stringify("false"),
         },
     }),
 });
