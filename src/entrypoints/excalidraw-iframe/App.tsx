@@ -1,14 +1,12 @@
-import {Excalidraw} from "@excalidraw/excalidraw";
+// import {Excalidraw} from "@excalidraw/excalidraw";
+// @ts-ignore
+// Prevent the eval from the development build from being included.
+import {Excalidraw} from "@excalidraw/excalidraw/dist/excalidraw.production.min";
 
 function App() {
-	return (
-		<>
-			<h1 style={{ textAlign: "center" }}>Excalidraw Example</h1>
-			<div style={{ height: "500px" }}>
-				<Excalidraw />
-			</div>
-		</>
-	);
+    return (
+        <Excalidraw />
+    );
 }
 
 export default App;

@@ -1,0 +1,101 @@
+/*
+<div class="excalidraw-root-container">
+    <div class="excalidraw-button-container">
+        <button class="excalidraw-inject-button" type="button">Excalidraw</button>
+        <button class="excalidraw-fullscreen-button" type="button">Fullscreen</button>
+    </div>
+    <div data-wxt-iframe="" class="excalidraw-iframe-container">
+        <iframe src="#" width="123"></iframe>
+    </div>
+</div>
+*/
+
+.hidden {
+    display:none;
+}
+
+.excalidraw-root-container {
+
+}
+
+.excalidraw-button-container {
+
+}
+
+.excalidraw-inject-button {
+
+}
+
+.excalidraw-fullscreen-button {
+
+}
+
+.excalidraw-iframe-container {
+    resize: vertical;
+    box-sizing: border-box;
+    border: 1px solid #c5c5c5;
+    overflow: auto;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.excalidraw-iframe-container iframe {
+    border: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+/*
+.excalidraw-iframe-container {
+box-sizing: border-box;
+border: 1px solid #c5c5c5;
+overflow: auto;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: flex-end;
+
+position: fixed;
+z-index: 100000;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+
+padding-bottom: 0rem;
+padding-left: 2rem;
+padding-right: 3rem;
+padding-top: 3rem;
+
+background-color: rgba(0, 0, 50, 0.4);
+}
+
+#excalidraw-exit-fullscreen {
+    position: absolute;
+    height: 3rem;
+    width: 3rem;
+    background: rgba(220, 220, 220, 0.8);;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    right: 0;
+    top: 0;
+    margin: 0.25rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#excalidraw-exit-fullscreen:hover {
+    background: rgba(255, 255, 255);
+}
+
+.excalidraw-iframe-container iframe {
+    border: 0;
+    width: 97%;
+    height: 100%;
+    border-radius: 1rem;
+
+}
+*/
