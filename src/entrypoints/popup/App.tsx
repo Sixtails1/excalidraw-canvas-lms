@@ -1,3 +1,5 @@
+import {ThemeToggle} from "@/entrypoints/components/ThemeToggle.tsx";
+
 function App() {
 	const [error, setError] = useState(false);
 
@@ -8,9 +10,19 @@ function App() {
 		})
 	};
 
+	const clearLocalStorage = () => {
+		browser.storage.local.clear(function() {
+			let error = browser.runtime.lastError;
+			if (error) {
+				console.error(error);
+			}
+		});
+		console.log("Cleared Storage");
+	}
+
 	return (
 		<>
-			<div id="popup-content" className="p-6 mx-auto">
+			<div id="popup-content" className="p-4 w-96 mx-auto">
 				<h1>Excalidraw in Canvas</h1>
 				{!error && (
 					<div id="popup-buttons">
@@ -33,6 +45,16 @@ function App() {
 						>
 							Hide Content
 						</button>
+						<button
+							onClick={() => clearLocalStorage()}
+							className="text-white bg-yellow-600 hover:bg-yellow-800 font-medium rounded-lg text-sm px-5 py-2.5 m-2"
+						>
+							Clear Storage
+						</button>
+						<div className={"grid grid-rows-1 grid-cols-2"}>
+							<p>Default Excalidraw Theme:</p>
+							<ThemeToggle onClick={() => handleButtonClick("excalidrawToggleTheme")}  />
+						</div>
 					</div>
 				)}
 				{error && (

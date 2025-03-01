@@ -12,6 +12,7 @@ export default defineConfig({
                 matches: ["*://*/*"],
             },
         ],
+        permissions: ['storage'],
     },
     vite: () => ({
         define: {

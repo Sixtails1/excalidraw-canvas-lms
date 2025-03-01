@@ -1,0 +1,20 @@
+<!--
+.excalidraw-fullscreen-arrow-mirror.toggled {
+    transform: scale(-1,-1) translate(-192px, -64px);
+}
+.excalidraw-fullscreen-arrow.toggled {
+    transform: translate(-64px, 64px);
+}
+-->
+<svg viewBox="0 0 128 128" width="128" height="128" xmlns="http://www.w3.org/2000/svg">
+    <!-- First arrow -->
+    <g class="excalidraw-fullscreen-arrow" stroke-width="16" stroke-linecap="round" stroke="black" fill="transparent">
+        <path d="M74,54 L114,14"/>
+        <path d="M72,8 h40 c0,0 8,0 8,8 v40"/>
+    </g>
+    <!-- Mirrored arrow -->
+    <g class="excalidraw-fullscreen-arrow-mirror" stroke-width="16" stroke-linecap="round" stroke="black" fill="transparent" transform="scale(-1, -1) translate(-128, -128)">
+        <path d="M74,54 L114,14"/>
+        <path d="M72,8 h40 c0,0 8,0 8,8 v40"/>
+    </g>
+</svg>

@@ -8,70 +8,98 @@ import './style.css';
         </iframe>
     </div>
 </div>
-
-
 */
+
+const createInjectButton = () => {
+    const injectButton = document.createElement("button");
+    injectButton.textContent = "Excalidraw";
+    injectButton.classList.add("excalidraw-inject-button");
+    injectButton.type = "button";
+    injectButton.innerHTML = `
+    <p>Open Excalidraw</p> 
+    <svg class="excalidraw-dropdown-triangle-icon" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="10,10 90,10 50,50 10,10"
+                  stroke="black"
+                  fill="black"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="10"
+                  transform="rotate(0.5turn)"/>
+    </svg>`;
+
+    return injectButton
+}
+
+const createFullscreenButton = () => {
+    const fullscreenButton = document.createElement("button");
+    fullscreenButton.classList.add("excalidraw-fullscreen-button");
+    fullscreenButton.type = "button";
+    fullscreenButton.innerHTML = `
+    <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" stroke-width="16" stroke-linecap="round" stroke="black" fill="transparent">
+        <!-- First arrow -->
+        <g class="excalidraw-fullscreen-arrow">
+            <path d="M74,54 L114,14"/>
+            <path d="M72,8 h40 c0,0 8,0 8,8 v40"/>
+        </g>
+        <!-- Mirrored arrow -->
+        <g class="excalidraw-fullscreen-arrow-mirror" transform="scale(-1, -1) translate(-128, -128)">
+            <path d="M74,54 L114,14"/>
+            <path d="M72,8 h40 c0,0 8,0 8,8 v40"/>
+        </g>
+    </svg>`;
+    return fullscreenButton;
+}
+
 export default defineContentScript({
     matches: ["https://*.instructure.com/courses/*/quizzes/*", "http://*.instructure.com/courses/*/quizzes/*"],
     async main(ctx) {
         const questions = document.querySelectorAll('.question');
         questions.forEach((question) => {
-            const injectButton = document.createElement("button");
-            injectButton.textContent = "Excalidraw";
-            injectButton.classList.add("excalidraw-inject-button");
-            injectButton.type = "button";
-
-            const fullscreenButton = document.createElement("button");
-            fullscreenButton.textContent = "Fullscreen";
-            fullscreenButton.classList.add("excalidraw-fullscreen-button");
-            fullscreenButton.type = "button";
-
-            //TODO:
-            // const exitFullscreenButton = document.createElement("button");
-            // exitFullscreenButton.innerHTML = `
-            // <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            //     <path d="M4 4L20 20M20 4L4 20" stroke="black" stroke-width="2" stroke-linecap="round"/>
-            // </svg>`;
-            // exitFullscreenButton.classList.add("excalidraw-exit-fullscreen-button", "hidden");
-            // exitFullscreenButton.type = "button";
-
-            const buttonContainer = document.createElement("div");
-            buttonContainer.classList.add("excalidraw-button-container");
-            buttonContainer.append(injectButton);
-            buttonContainer.append(fullscreenButton);
-
-
             const htmlInjectionRoot = document.createElement("div");
             htmlInjectionRoot.classList.add("excalidraw-root-container");
-            htmlInjectionRoot.append(buttonContainer);
 
+            const injectButton = createInjectButton();
+            htmlInjectionRoot.append(injectButton);
 
-            //TODO:
-            // let isFullscreen = false;
-            // fullscreenButton.addEventListener("click", () => {
-            //     if (isFullscreen) {
-            //     } else {
-            //     }
-            // })
-
+            const fullscreenButton = createFullscreenButton();
 
             const iframe = createIframeUi(ctx, {
-                page: '/excalidraw-iframe.html',
+                page: "/excalidraw-iframe.html",
                 position: 'inline',
                 anchor: htmlInjectionRoot,
                 onMount: (wrapper, iframe) => {
                     wrapper.classList.add("excalidraw-iframe-container");
-                },
+                    wrapper.prepend(fullscreenButton);
+                }
             });
+            iframe.iframe.src += `?id=${question.id}`;
 
-            let showIFrame = true;
+            const fullscreenHandler = () => {
+                iframe.wrapper.classList.toggle("fullscreen");
+                console.log("fullscreen-toggled");
+            }
+
+            const fullscreenHandlerEscape = (event: KeyboardEvent) => {
+                if (event.key === "Escape" && iframe.wrapper.classList.contains("fullscreen")) {
+                    iframe.wrapper.classList.remove("fullscreen");
+                }
+            }
+
+            let showIFrame = false;
             injectButton.addEventListener("click", () => {
+                showIFrame = !showIFrame
+                injectButton.setAttribute("aria-expanded", String(showIFrame));
+
                 if (showIFrame) {
+                    fullscreenButton.addEventListener("click", fullscreenHandler);
+                    document.addEventListener('keydown', fullscreenHandlerEscape);
                     iframe.mount();
                 } else {
+                    fullscreenButton.removeEventListener("click", fullscreenHandler);
+                    document.removeEventListener('keydown', fullscreenHandlerEscape);
+                    iframe.wrapper.classList.remove("fullscreen");
                     iframe.remove();
                 }
-                showIFrame = !showIFrame
             })
 
             const ui = createIntegratedUi(ctx, {
@@ -79,6 +107,7 @@ export default defineContentScript({
                     container.append(htmlInjectionRoot);
                 },
             });
+
             ui.mount();
         });
     }

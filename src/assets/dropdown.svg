@@ -1,0 +1,13 @@
+<!-- To Flip Arrow -->
+<!-- css -> transform: rotate(0.5turn); -->
+<svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+    <polyline class="dropdown-triangle-icon"
+              points="10,10 90,10 50,50 10,10"
+              stroke="black"
+              fill="black"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="10"
+    transform="rotate(0.5turn)"/>
+</svg>
+
